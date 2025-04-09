@@ -8,7 +8,8 @@ public class BuildManager : MonoBehaviour
     [SerializeField] private GameObject unitPrefab;
     [SerializeField] private Transform spawnPoint;
 
-    private PlayerManager playerManager;
+    [Header("Units Build Settings")]
+    [SerializeField] private int unitsCount;
 
     public virtual void OpenBuildWindow()
     {
@@ -16,22 +17,15 @@ public class BuildManager : MonoBehaviour
         NewUnitManager.instance.canInteractWithUnit = false;
     }
 
+    private void OnMouseOver()
+    {
+        if (Input.GetMouseButtonDown(1) && !buildUI.activeSelf) OpenBuildWindow();
+    }
+
     public virtual void CloseBuildWindow()
     {
         buildUI.SetActive(false);
         NewUnitManager.instance.canInteractWithUnit = true;
-    }
-
-    public void CreateUnit()
-    {
-        if (playerManager.troopsCount >= playerManager.populationLimit) return;
-        var unitCreated = Instantiate(unitPrefab, spawnPoint.position, spawnPoint.rotation);
-        NewUnitManager.instance.units.Add(unitCreated.GetComponent<BaseUnit>());
-    }
-
-    private void Awake()
-    {
-        playerManager = FindObjectOfType<PlayerManager>();
     }
 
     private void Update()

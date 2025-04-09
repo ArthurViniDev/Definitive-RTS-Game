@@ -19,6 +19,7 @@ public class NewUnitManager : MonoBehaviour
 
     private void Awake()
     {
+        if (instance != this) Destroy(gameObject);
         instance = this;
         units.AddRange(FindObjectsOfType<BaseUnit>());
     }
@@ -79,20 +80,6 @@ public class NewUnitManager : MonoBehaviour
             RaycastHit hit;
             if (Physics.Raycast(ray, out hit, Mathf.Infinity, targetsLayer))
             {
-                // if (hit.collider.gameObject.layer == 8)
-                // {
-                //     foreach (BaseUnit unit in selectedUnits)
-                //     {
-                //         unit.enemyTarget = hit.collider.gameObject;
-                //     }
-                // }
-                // else
-                // {
-                //     foreach (Unit unit in selectedUnits)
-                //     {
-                //         unit.enemyTarget = null;
-                //     }
-                // }
                 foreach (BaseUnit unit in selectedUnits)
                 {
                     unit.agent.SetDestination(hit.point);
